@@ -1,0 +1,9 @@
+---
+name: cat-service
+server:
+  applicationConnectors:
+    - type: http
+      port: ${APPLICATION_PORT:-18080}
+  adminConnectors:
+    - type: http
+      port: ${ADMIN_PORT:-18081}
