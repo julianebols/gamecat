@@ -1,31 +1,50 @@
 package no.julianebols.rest.game.cat.interfaces;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.Path;
+import no.julianebols.rest.game.cat.domain.Cat;
+import no.julianebols.rest.game.cat.infrastracture.CatRepository;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("cats")
 public class CatResources {
 
+    private CatRepository catRepository;
+
+    public CatResources(CatRepository catRepository) {
+        this.catRepository = catRepository;
+    }
+
     @GET
-    public Response getCats(){
-        return Response.ok("Vasily").build();
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCats() {
+        List<Cat> cats = catRepository.getCats();
+        return Response.ok(cats).build();
     }
 
     @POST
-    public Response getCatName(String name){
-        return Response.ok(name + " the cat.").build();
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createCat(Cat cat) {
+        boolean createdCat = catRepository.createCat(cat);
+        if (createdCat) {
+            return Response.ok(cat.getId()).build();
+        } else {
+            return Response.status(400).build();
+        }
     }
 
-    @PUT
-    public Response getCat(String name){
-        return Response.ok(name + " the cat.").build();
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCat(@PathParam("id") String id) {
+        Cat cat = catRepository.getCat(id);
+        if (cat == null) {
+            return Response.status(404).build();
+        }
+        return Response.ok(cat).build();
     }
-
-
 
 
 }

@@ -5,12 +5,14 @@ import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import no.julianebols.rest.game.cat.infrastracture.CatRepository;
+import no.julianebols.rest.game.cat.infrastracture.memory.CatRepositoryInMemory;
 import no.julianebols.rest.game.cat.interfaces.CatResources;
 
 public class CatApplication extends Application<CatApplicationConfig> {
 
     public static void main(String[] args) throws Exception {
-       new CatApplication().run(args);
+        new CatApplication().run(args);
     }
 
     @Override
@@ -24,7 +26,8 @@ public class CatApplication extends Application<CatApplicationConfig> {
     @Override
     public void run(CatApplicationConfig catApplicationConfig, Environment environment) throws Exception {
         System.out.println("HERE: " + catApplicationConfig);
-        CatResources catResources = new CatResources();
+        CatRepository repository = new CatRepositoryInMemory();
+        CatResources catResources = new CatResources(repository);
         environment.jersey().register(catResources);
     }
 
