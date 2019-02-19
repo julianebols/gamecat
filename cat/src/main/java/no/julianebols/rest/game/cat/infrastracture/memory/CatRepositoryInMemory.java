@@ -37,12 +37,24 @@ public class CatRepositoryInMemory implements CatRepository {
     }
 
     @Override
-    public boolean updateCat(Cat cat) {
-        return false;
+    public boolean updateCat(String id, Cat cat) {
+        if (!id.equals(cat.getId())){
+            return false;
+        }
+        Cat catFound = getCat(cat.getId());
+        if (catFound == null){
+            return false;
+        }
+        deleteCate(catFound.getId());
+
+        return cats.add(cat);
     }
 
     @Override
     public void deleteCate(String id) {
-
+        Cat catFound = getCat(id);
+        if (catFound != null){
+            cats.remove(catFound);
+        }
     }
 }

@@ -46,5 +46,23 @@ public class CatResources {
         return Response.ok(cat).build();
     }
 
+    @DELETE
+    @Path("/{id}")
+    public Response deleteCat(@PathParam("id") String id){
+        catRepository.deleteCate(id);
+        return Response.noContent().build();
+    }
+
+    @PUT
+    @Path("/{id}")
+    public Response updateCat(@PathParam("id") String id, Cat cat){
+        boolean updated = catRepository.updateCat(id, cat);
+        if (updated){
+            return Response.noContent().build();
+        } else{
+            return Response.status(404).build();
+        }
+    }
+
 
 }

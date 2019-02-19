@@ -12,7 +12,7 @@ public interface CatRepository {
 
     Cat getCat(String id);
 
-    boolean updateCat(Cat cat);
+    boolean updateCat(String id, Cat cat);
 
     void deleteCate(String id);
 }
