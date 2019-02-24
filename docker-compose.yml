@@ -1,0 +1,11 @@
+version: '3'
+services:
+
+  db:
+    image: postgres:11
+    environment:
+      POSTGRES_PASSWORD: myblog
+      POSTGRES_USER: dbuser
+      POSTGRES_DB: myDB
+    ports:
+      - 5432:5432
